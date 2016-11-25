@@ -99,7 +99,7 @@ describe Cacher do
         assert(cacher.get(key) == 3)
       end
 
-      it 'get multiple values on a single request' do
+      it 'gets multiple values on a single request' do
         keys = ['foo', 'bar']
         assert(cacher.get_multi(keys) == [nil, nil])
         cacher.set(keys[0]) { 'a' }
@@ -107,7 +107,7 @@ describe Cacher do
         assert(cacher.get_multi(keys) == ['a', 'b'])
       end
 
-      it 'return nil value on a multiple requests for an inexistent value' do
+      it 'returns nil value on a multiple requests for an inexistent value' do
         keys = ['foo', 'bar', 'baz']
         assert(cacher.get_multi(keys) == [nil, nil, nil])
         cacher.set(keys[0]) { 'a' }

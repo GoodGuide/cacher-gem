@@ -21,8 +21,8 @@ class TestCache < Hash
   end
 
   def read_multi(*keys)
-    self.select{|k, _| keys.include?(k) }
-end
+    self.select{ |k, _| keys.include?(k) }
+  end
 
 private
   def check_key(key)
