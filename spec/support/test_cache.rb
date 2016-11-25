@@ -21,10 +21,11 @@ class TestCache < Hash
   end
 
   def read_multi(*keys)
-    self.select{ |k, _| keys.include?(k) }
+    select { |k, _| keys.include?(k) }
   end
 
-private
+  private
+
   def check_key(key)
     if key.size > max_key_length
       raise KeyLengthError.new("key too long (#{key.size} > #{key.max_key_length}): #{key}")

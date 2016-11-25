@@ -110,9 +110,11 @@ module Cacher
   end
 
 private
+
   def bust_hash
     Thread.current[:cacher_bust_hash] ||= {}
   end
+
 public
 
   def enabled?
@@ -162,12 +164,13 @@ public
   end
 
 private
+
   def decorate_key(key)
     if namespaced?
       key = "#{namespace}/#{key}"
     end
 
-    key += "/marshal" if marshal?
+    key += '/marshal' if marshal?
 
     key
   end
@@ -218,7 +221,7 @@ private
     end
   end
 
-  CACHER_NIL = 'cacher/nil'
+  CACHER_NIL = 'cacher/nil'.freeze
   def marshal_value(val)
     if marshal?
       Marshal.dump(val)

@@ -25,14 +25,14 @@ describe Cacher do
     end
 
     it 'creates a new object with a hash' do
-      my_cacher = Cacher::Base.new(:enabled => true)
+      my_cacher = Cacher::Base.new(enabled: true)
       assert(my_cacher.enabled?)
     end
   end
 
   describe 'usage' do
     let(:cache) { TestCache.new }
-    let(:cacher) { Cacher::Base.new(:cache => cache) }
+    let(:cacher) { Cacher::Base.new(cache: cache) }
 
     after do
       Cacher.reset!
@@ -73,29 +73,29 @@ describe Cacher do
       it 'transparently handles nil values' do
         cacher.set('foo') { nil }
         assert(cacher.key?('foo') == true)
-        assert(cacher.get('foo') == nil)
-        assert(cacher.get('foo') { :not_nil } == nil)
+        assert(cacher.get('foo').nil?)
+        assert(cacher.get('foo') { :not_nil }.nil?)
       end
 
       it 'uses a namespace' do
         cacher.namespace = 'my_cool_namespace'
         cacher.set('foo') { 1 }
-        assert(cache.keys.include? 'my_cool_namespace/foo')
-        refute(cache.keys.include? 'foo')
+        assert(cache.keys.include?('my_cool_namespace/foo'))
+        refute(cache.keys.include?('foo'))
       end
 
       it %[doesn't use a namespace by default] do
         refute(cacher.namespaced?)
         cacher.set('foo') { 1 }
-        assert(cache.keys.include? 'foo')
+        assert(cache.keys.include?('foo'))
       end
 
       it %[shortens a key if it's too long] do
-        key = "a_really_long_key/" * 100
+        key = 'a_really_long_key/' * 100
         cacher.max_key_size = 100
 
         cacher.set(key) { 3 }
-        assert(cache.last_accessed_key =~ %r[^sha1/[0-9a-f]+$])
+        assert(cache.last_accessed_key =~ %r{^sha1/[0-9a-f]+$})
         assert(cacher.get(key) == 3)
       end
 
@@ -148,11 +148,11 @@ describe Cacher do
           end
 
           cacher.set('keepers') { Finders::Keepers.new }
-          assert(cacher.get('keepers').is_a? Finders::Keepers)
+          assert(cacher.get('keepers').is_a?(Finders::Keepers))
           Finders.send :remove_const, 'Keepers'
-          assert(cacher.get('keepers').is_a? Finders::Keepers)
+          assert(cacher.get('keepers').is_a?(Finders::Keepers))
           Object.send :remove_const, 'Finders'
-          assert_raises(NameError){ cacher.get('keepers') }
+          assert_raises(NameError) { cacher.get('keepers') }
         end
       end
     end

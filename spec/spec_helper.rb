@@ -6,6 +6,6 @@ require 'cacher'
 require 'minitest/autorun'
 require 'minitest/spec'
 
-Dir[File.expand_path('support/**/*.rb', File.dirname(__FILE__))].each {|f|
+Dir[File.expand_path('support/**/*.rb', File.dirname(__FILE__))].each do |f|
   require f
-}
+end
