@@ -20,6 +20,9 @@ class TestCache < Hash
     self[key.to_s] = val
   end
 
+  def read_multi(*keys)
+    self.select{ |k, _| keys.include?(k) }
+  end
 
 private
   def check_key(key)
